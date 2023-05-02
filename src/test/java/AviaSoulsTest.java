@@ -8,80 +8,88 @@ import java.util.Arrays;
 
 public class AviaSoulsTest {
     Ticket ticket_1 = new Ticket("Уфа", "Нижний Новгород", 8450, 10, 12);
-    Ticket ticket_2 = new Ticket("Уфа", "Казань", 4700, 10, 14);
+    Ticket ticket_2 = new Ticket("Уфа", "Казань", 4700, 10, 22);
     Ticket ticket_3 = new Ticket("Уфа", "Санкт-Петербург", 4700, 10, 16);
     Ticket ticket_4 = new Ticket("Уфа", "Москва", 16000, 10, 18);
-    Ticket ticket_5 = new Ticket("Уфа", "Ростов-на-Дону" , 5500, 10, 20);
-    Ticket ticket_6 = new Ticket("Уфа", "Сочи", 9600, 10, 22);
+    Ticket ticket_5 = new Ticket("Уфа", "Ростов-на-Дону", 5500, 10, 20);
+    Ticket ticket_6 = new Ticket("Уфа", "Сочи", 9600, 10, 14);
+
     @Test
-    public void shouldAddTicket() {
+    public void ComparedToAnotherTicket() {
+
         AviaSouls souls = new AviaSouls();
-        souls.add (ticket_1);
-        souls.add (ticket_2);
-        souls.add (ticket_3);
-        souls.add (ticket_4);
-        souls.add (ticket_5);
-        souls.add (ticket_6);
-        Ticket[] expected = {ticket_1, ticket_2, ticket_3, ticket_4, ticket_5, ticket_6};
-        Ticket[] actual = souls.findAll();
-        Assertions.assertArrayEquals (expected, actual);
+        souls.add(ticket_1);
+        souls.add(ticket_2);
+        souls.add(ticket_3);
+        souls.add(ticket_4);
+        souls.add(ticket_5);
+        souls.add(ticket_6);
+
+        Ticket[] tickets = {ticket_1, ticket_3};
+        Arrays.sort(tickets);
+
+        Ticket[] expected = {ticket_3, ticket_1};
+
+        Assertions.assertArrayEquals(expected, tickets);
     }
     @Test
-    public void shouldSearchTicket() {
+    public void CompareDepartureTime() {
         AviaSouls souls = new AviaSouls();
-        souls.add (ticket_1);
-        souls.add (ticket_2);
-        souls.add (ticket_3);
-        souls.add (ticket_4);
-        souls.add (ticket_5);
-        souls.add (ticket_6);
+        souls.add(ticket_1);
+        souls.add(ticket_2);
+        souls.add(ticket_3);
+        souls.add(ticket_4);
+        souls.add(ticket_5);
+        souls.add(ticket_6);
+
+        TicketTimeComparator timeComparator = new TicketTimeComparator();
+
+        Ticket[] tickets = {ticket_1, ticket_6};
+        Arrays.sort(tickets, timeComparator);
+
+        Ticket[] expected = {ticket_1, ticket_6};
+
+
+        Assertions.assertArrayEquals(expected, tickets);
+    }
+
+    @Test
+    public void SortingAndSearchingByTicketPrice() {
+        AviaSouls souls = new AviaSouls();
+        souls.add(ticket_1);
+        souls.add(ticket_2);
+        souls.add(ticket_3);
+        souls.add(ticket_4);
+        souls.add(ticket_5);
+        souls.add(ticket_6);
+
+        TicketTimeComparator timeComparator = new TicketTimeComparator();
+
         Ticket[] tickets = {ticket_1, ticket_2, ticket_3, ticket_4, ticket_5, ticket_6};
-        Arrays.sort (tickets);
+        Arrays.sort(tickets, timeComparator);
+
         Ticket[] expected = {ticket_2, ticket_3, ticket_5, ticket_1, ticket_6, ticket_4};
-        Assertions.assertArrayEquals (expected, tickets);
+
+        Assertions.assertArrayEquals(expected, tickets);
     }
+
     @Test
-    public void shouldCompareToTicket() {
+    public void SortingAndSearchingByFlightTime() {
         AviaSouls souls = new AviaSouls();
-        souls.add (ticket_1);
-        souls.add (ticket_2);
-        souls.add (ticket_3);
-        souls.add (ticket_4);
-        souls.add (ticket_5);
-        souls.add (ticket_6);
-        Ticket[] tickets = {ticket_1, ticket_2};
-        Arrays.sort (tickets);
-        Ticket[] expected = {ticket_2, ticket_1};
-        Assertions.assertArrayEquals (expected, tickets);
-    }
-    @Test
-    public void shouldTimeComparator() {
-        AviaSouls souls = new AviaSouls();
-        souls.add (ticket_1);
-        souls.add (ticket_2);
-        souls.add (ticket_3);
-        souls.add (ticket_4);
-        souls.add (ticket_5);
-        souls.add (ticket_6);
+        souls.add(ticket_1);
+        souls.add(ticket_2);
+        souls.add(ticket_3);
+        souls.add(ticket_4);
+        souls.add(ticket_5);
+        souls.add(ticket_6);
+
         TicketTimeComparator timeComparator = new TicketTimeComparator();
-        Ticket[] tickets = {ticket_1, ticket_2};
-        Arrays.sort(tickets, timeComparator);
-        Ticket[] expected = {ticket_1, ticket_2};
-        Assertions.assertArrayEquals(expected,tickets);
-    }
-    @Test
-    public void shouldSearchAndSortBy() {
-        AviaSouls souls = new AviaSouls();
-        souls.add (ticket_1);
-        souls.add (ticket_2);
-        souls.add (ticket_3);
-        souls.add (ticket_4);
-        souls.add (ticket_5);
-        souls.add (ticket_6);
-        TicketTimeComparator timeComparator = new TicketTimeComparator();
+
         Ticket[] tickets = {ticket_1, ticket_2, ticket_3, ticket_4, ticket_5, ticket_6};
         Arrays.sort(tickets, timeComparator);
-        Ticket[] expected = {ticket_1, ticket_2, ticket_3, ticket_4, ticket_5, ticket_6};
-        Assertions.assertArrayEquals(expected,tickets);
+
+        Ticket[] expected = {ticket_1, ticket_6, ticket_3, ticket_4, ticket_5, ticket_2};
+
+        Assertions.assertArrayEquals(expected, tickets);
     }
 }
